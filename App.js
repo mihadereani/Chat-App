@@ -1,45 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.blue}>Hello World!</Text>
-      <Text style={styles.bigRed}>How are you?</Text>
-      <Text style={[styles.blue, styles.bigRed]}>I'm feeling blue!</Text>
-      <StatusBar style='auto' />
-      <View style={styles.box}></View>
-    </View>
-  );
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
+export default class HelloWorld extends Component {
+  render() {
+    return (
+      <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ width: 50, height: 50, backgroundColor: 'blue' }}></View>
+        <View style={{ flex: 1, backgroundColor: 'red' }}></View>
+        <View
+          style={{ width: 100, height: 200, backgroundColor: 'green' }}
+        ></View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
   },
-
-  blue: {
-    color: 'blue',
-    fontWeight: '600',
-  },
-
-  bigRed: {
-    color: 'red',
-    fontSize: 30,
-  },
-
-  bigRedBold: {
-    color: 'red',
-    fontSize: 30,
-    fontWeight: '600',
-  },
-
-  box: {
-    width: 60,
-    height: 60,
+  box1: {
+    flex: 10,
     backgroundColor: 'blue',
+  },
+  box2: {
+    flex: 120,
+    backgroundColor: 'red',
+  },
+  box3: {
+    flex: 50,
+    backgroundColor: 'green',
   },
 });
