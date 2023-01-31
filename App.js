@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TextInput, Alert, Button } from 'react-native';
 
 // import the screens
-import Screen1 from './components/Start';
-import Screen2 from './components/Chat';
+import Start from './components/Start';
+import Chat from './components/Chat';
 
 // import react native gesture handler
 import 'react-native-gesture-handler';
@@ -23,9 +23,9 @@ export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Screen1'>
-          <Stack.Screen name='Screen1' component={Screen1} />
-          <Stack.Screen name='Screen2' component={Screen2} />
+        <Stack.Navigator initialRouteName='Start'>
+          <Stack.Screen name='Start' component={Start} />
+          <Stack.Screen name='Chat' component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
     );
