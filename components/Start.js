@@ -36,7 +36,7 @@ export default class Start extends React.Component {
               style={[styles.input, styles.text]}
               onChangeText={(name) => this.setState({ name })}
               value={this.state.name}
-              placeholder='Enter your username'
+              placeholder='Your Name'
             />
 
             <View style={styles.colorWrapper}>
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    flex: 0.8,
     fontSize: 45,
     fontWeight: '600',
     color: '#fff',
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '44%',
     justifyContent: 'space-evenly',
+    margintop: 20,
   },
 
   input: {
@@ -134,23 +136,26 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     color: '#757083',
     borderWidth: 2,
-    borderRadius: 20,
+    borderRadius: 10,
+    marginTop: 20,
   },
 
   text: {
     color: '#757083',
     fontSize: 16,
     fontWeight: '300',
-    textAlign: 'center',
+
+    paddingLeft: 10,
   },
 
   button: {
     height: 50,
-    width: '50%',
+    width: '88%',
     backgroundColor: '#757083',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    marginBottom: 20,
   },
 
   buttonText: {
@@ -178,5 +183,6 @@ const styles = StyleSheet.create({
 
   colors: {
     flexDirection: 'row',
+    marginTop: 10,
   },
 });
