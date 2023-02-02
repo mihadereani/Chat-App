@@ -18,7 +18,7 @@ const backgroundColors = {
 export default class Start extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: '' };
+    this.state = { name: '', color: '' };
   }
 
   render() {
@@ -97,6 +97,7 @@ export default class Start extends React.Component {
               onPress={() =>
                 this.props.navigation.navigate('Chat', {
                   name: this.state.name,
+                  color: this.state.color,
                 })
               }
             >
