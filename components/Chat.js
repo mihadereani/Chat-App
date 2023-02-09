@@ -10,6 +10,7 @@ export default class Chat extends React.Component {
     super();
     this.state = {
       messages: [],
+      uid: 0,
     };
 
     const firebaseConfig = {
@@ -42,7 +43,7 @@ export default class Chat extends React.Component {
         firebase.auth().signInAnonymously();
       }
       this.setState({
-        uid: user.uid,
+        uid: user?.uid,
         messages: [],
       });
       this.unsubscribe = this.referenceChatMessages
@@ -87,14 +88,18 @@ export default class Chat extends React.Component {
     );
   }
 
-  addMessage() {
+  addMessage = () => {
+    const message = this.state.messages[0];
     this.referenceChatMessages.add({
-      _id: this.state.messages[0]._id,
-      text: this.state.messages[0].text || '',
-      createdAt: this.state.messages[0].createdAt,
-      user: this.state.messages[0].user,
+      uid: this.state.uid,
+      _id: message._id,
+      text: message.text || '',
+      createdAt: message.createdAt,
+      user: message.user,
+      image: message.image || null,
+      location: message.location || null,
     });
-  }
+  };
 
   onSend(messages = []) {
     this.setState(
@@ -120,7 +125,7 @@ export default class Chat extends React.Component {
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
-            _id: 1,
+            _id: this.state.uid,
           }}
         />
         {Platform.OS === 'android' ? (
