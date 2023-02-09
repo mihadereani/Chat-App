@@ -90,6 +90,11 @@ export default class Chat extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    this.unsubscribe();
+    this.authUnsubscribe();
+  }
+
   renderBubble(props) {
     return (
       <Bubble
