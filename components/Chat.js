@@ -32,6 +32,24 @@ export default class Chat extends React.Component {
   componentDidMount() {
     let name = this.props.route.params.name;
 
+    this.referenceChatMessages = firebase.firestore().collection('messages');
+    this.unsubscribe = this.referenceChatMessages.onSnapshot(
+      this.onCollectionUpdate
+    );
+
+    this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      }
+      this.setState({
+        uid: user.uid,
+        messages: [],
+      });
+      this.unsubscribe = this.referenceChatMessages
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(this.onCollectionUpdate);
+    });
+
     this.setState({
       messages: [
         {
@@ -53,6 +71,21 @@ export default class Chat extends React.Component {
       ],
     });
   }
+
+  onCollectionUpdate = (querySnapshot) => {
+    const messages = [];
+    // go through each document
+    querySnapshot.forEach((doc) => {
+      // get the QueryDocumentSnapshot's data
+      let data = doc.data();
+      messages.push({
+        _id: data._id,
+        text: data.text,
+        createdAt: data.createdAt.toDate(),
+        user: data.user,
+      });
+    });
+  };
 
   renderBubble(props) {
     return (
