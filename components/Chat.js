@@ -50,7 +50,7 @@ export default class Chat extends React.Component {
         .onSnapshot(this.onCollectionUpdate);
     });
 
-    this.setState({
+    /* this.setState({
       messages: [
         {
           _id: 1,
@@ -69,7 +69,7 @@ export default class Chat extends React.Component {
           system: true,
         },
       ],
-    });
+    }); */
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -100,10 +100,24 @@ export default class Chat extends React.Component {
     );
   }
 
+  addMessage() {
+    this.referenceChatMessages.add({
+      _id: this.state.messages[0]._id,
+      text: this.state.messages[0].text || '',
+      createdAt: this.state.messages[0].createdAt,
+      user: this.state.messages[0].user,
+    });
+  }
+
   onSend(messages = []) {
-    this.setState((previousState) => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }));
+    this.setState(
+      (previousState) => ({
+        messages: GiftedChat.append(previousState.messages, messages),
+      }),
+      () => {
+        this.addMessage();
+      }
+    );
   }
 
   render() {
