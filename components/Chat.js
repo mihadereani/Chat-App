@@ -84,6 +84,9 @@ export default class Chat extends React.Component {
         createdAt: data.createdAt.toDate(),
         user: data.user,
       });
+      this.setState({
+        messages,
+      });
     });
   };
 
