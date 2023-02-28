@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Platform, KeyboardAvoidingView } from 'react-native';
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -47,6 +48,14 @@ export default class Chat extends React.Component {
     let name = this.props.route.params.name;
 
     this.getMessages();
+
+    NetInfo.fetch().then((connection) => {
+      if (connection.isConnected) {
+        this.setState({ isConnected: true });
+      } else {
+        this.setState({ isConnected: false });
+      }
+    });
 
     this.referenceChatMessages = firebase.firestore().collection('messages');
     this.unsubscribe = this.referenceChatMessages.onSnapshot(
@@ -150,6 +159,13 @@ export default class Chat extends React.Component {
     }
   }
 
+  renderInputToolbar(props) {
+    if (this.state.isConnected == false) {
+    } else {
+      return <InputToolbar {...props} />;
+    }
+  }
+
   render() {
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
@@ -160,6 +176,7 @@ export default class Chat extends React.Component {
       <View style={{ flex: 1, backgroundColor: color }}>
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
+          renderInputToolbar={this.renderInputToolbar.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
