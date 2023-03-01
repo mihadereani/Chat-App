@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 export default class CustomActions extends React.Component {
   onActionPress = () => {
@@ -11,7 +12,7 @@ export default class CustomActions extends React.Component {
       'Cancel',
     ];
     const cancelButtonIndex = options.length - 1;
-    this.context.actionSheet().showActionSheetWithOptions(
+    this.props.showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
@@ -20,13 +21,13 @@ export default class CustomActions extends React.Component {
         switch (buttonIndex) {
           case 0:
             console.log('user wants to pick an image');
-            return;
+            return this.imagePicker();
           case 1:
             console.log('user wants to take a photo');
-            return;
+            return this.takePhoto();
           case 2:
             console.log('user wants to get their location');
-          default:
+            return this.getLocation();
         }
       }
     );

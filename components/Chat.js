@@ -4,6 +4,8 @@ import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -171,6 +173,24 @@ export default class Chat extends React.Component {
     return <CustomActions {...props} />;
   };
 
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
@@ -178,22 +198,25 @@ export default class Chat extends React.Component {
     let color = this.props.route.params.color;
 
     return (
-      <View style={{ flex: 1, backgroundColor: color }}>
-        <GiftedChat
-          renderBubble={this.renderBubble.bind(this)}
-          renderInputToolbar={this.renderInputToolbar.bind(this)}
-          messages={this.state.messages}
-          onSend={(messages) => this.onSend(messages)}
-          renderActions={this.renderCustomActions.bind(this)}
-          user={{
-            _id: this.state.uid,
-            avatar: 'https://placeimg.com/140/140/any',
-          }}
-        />
-        {Platform.OS === 'android' ? (
-          <KeyboardAvoidingView behavior='height' />
-        ) : null}
-      </View>
+      <ActionSheetProvider>
+        <View style={{ flex: 1, backgroundColor: color }}>
+          <GiftedChat
+            renderBubble={this.renderBubble.bind(this)}
+            renderInputToolbar={this.renderInputToolbar.bind(this)}
+            messages={this.state.messages}
+            onSend={(messages) => this.onSend(messages)}
+            renderActions={this.renderCustomActions.bind(this)}
+            renderCustomView={this.renderCustomView.bind(this)}
+            user={{
+              _id: this.state.uid,
+              avatar: 'https://placeimg.com/140/140/any',
+            }}
+          />
+          {Platform.OS === 'android' ? (
+            <KeyboardAvoidingView behavior='height' />
+          ) : null}
+        </View>
+      </ActionSheetProvider>
     );
   }
 }
