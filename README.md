@@ -28,13 +28,12 @@ Chat App for both Android/iOS created with React Native. The app provides users 
 
 ## Setting up the development environment:
 
-- Clone the repository: git clone `https://github.com/mihadereani/Chat-App`
+- Clone the repository: `git clone https://github.com/mihadereani/Chat-App`
 - Install Expo CLI as a global npm package: `npm install -g expo-cli`
-- Install all project dependencies: `npm install`
+- Install all project dependencies: `npx yarn install`
 - Head over to https://expo.dev/, create an account and log in via terminal with `expo login`
 - Follow expo CLI's instructions depending on your preferred simulator (XCode, Android Studio, Expo Go)
-- Start the project: `npm start` or `expo start`
-- In case Expo cannot detect the running project, try running it with `npx expo start --tunnel`
+- Start the project: `npx expo start`
 
 ## Dependencies
 
