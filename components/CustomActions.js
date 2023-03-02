@@ -5,6 +5,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import { Camera } from 'expo-camera';
 
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -12,7 +13,8 @@ require('firebase/firestore');
 export default class CustomActions extends React.Component {
   imagePicker = async () => {
     // expo permission
-    const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    //const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
     try {
       if (status === 'granted') {
         // pick image
@@ -21,7 +23,7 @@ export default class CustomActions extends React.Component {
         }).catch((error) => console.log(error));
         // canceled process
         if (!result.canceled) {
-          const imageUrl = await this.uploadImageFetch(result.uri);
+          const imageUrl = await this.uploadImageFetch(result.assets[0].uri);
           this.props.onSend({ image: imageUrl });
         }
       }
@@ -31,10 +33,11 @@ export default class CustomActions extends React.Component {
   };
 
   takePhoto = async () => {
-    const { status } = await Permissions.askAsync(
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    /* const { status } = await Permissions.askAsync(
       Permissions.CAMERA,
       Permissions.MEDIA_LIBRARY
-    );
+    ); */
     try {
       if (status === 'granted') {
         const result = await ImagePicker.launchCameraAsync({
@@ -42,7 +45,7 @@ export default class CustomActions extends React.Component {
         }).catch((error) => console.log(error));
 
         if (!result.canceled) {
-          const imageUrl = await this.uploadImageFetch(result.uri);
+          const imageUrl = await this.uploadImageFetch(result.assets[0].uri);
           this.props.onSend({ image: imageUrl });
         }
       }

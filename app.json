@@ -1,5 +1,8 @@
 {
   "expo": {
+    "plugins": [
+      "expo-image-picker"
+    ],
     "name": "hello-world",
     "slug": "hello-world",
     "version": "1.0.0",
