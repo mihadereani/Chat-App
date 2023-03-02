@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, Alert, Button } from 'react-native';
-
-// import the screens
-import Start from './components/Start';
-import Chat from './components/Chat';
-
-// import react native gesture handler
-import 'react-native-gesture-handler';
+import { StyleSheet, Text, View } from 'react-native';
 
 // import react Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+// import react native gesture handler
+import 'react-native-gesture-handler';
+
+//import screens components
+import Start from './components/Start';
+import Chat from './components/Chat';
+import CustomActions from './components/CustomActions';
+
+//Create the navigator
 const Stack = createStackNavigator();
 
-export default class App extends React.Component {
-  /* constructor(props) {
-    super(props);
-    this.state = { text: '' };
-  } */
+export default class App extends Component {
+  renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  };
 
   render() {
     return (
